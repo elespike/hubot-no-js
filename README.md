@@ -75,8 +75,8 @@ That's it!
 
 Now every time someone says `marco` in a room where the bot is active, the bot will reply with `polo`.
 
-Please note: commands will only execute if the message starts with the command itself, whereas triggers will execute if a particular word is found anywhere in the message.
-E.g., `Marco 123` **will** trigger the script; `hello there, Marco` **will not**
+Please note: commands will only execute if the message starts with the command itself.  
+E.g., `Marco 123` **will** trigger the script; `hello there, Marco` **will not**.
 
 #### kwargs reference for commands
 ```
@@ -115,7 +115,7 @@ trigger_scripts = {
 
 Now every time someone says `marco` in a room where the bot is active, the bot will reply with `polo`.
 
-Please note: triggers will execute if a particular word is found anywhere in the message, whereas commands will only execute if the message starts with the command itself.
+Please note: triggers will execute if a particular word is found anywhere in the message.  
 E.g., `hello there, Marco` **will** trigger the script.
 
 #### kwargs reference for triggers
@@ -144,7 +144,7 @@ username = kwargs['username'] # The user who posted the message
 ```
 
 ### Logging
-To log messages to the log room (see the [Configuration](https://github.com/elespike/hubot-no-js#configuration) section for information on configuring the log room), use the built-in `logger` object to send Python logging events:
+To log messages to the log room (see the [Log room](https://github.com/elespike/hubot-no-js#log-room) section for information on configuring it), use the built-in `logger` object to send Python logging events:
 ```
 logger = kwargs['logger']
 logger.debug  ('Debug message'        )
