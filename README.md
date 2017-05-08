@@ -30,7 +30,7 @@ Options:
 ```
 
 ### Trigger scripts
-See the Triggers section below for details.
+See the [Triggers](https://github.com/elespike/hubot-no-js#triggers) section below for details.
 
 ### Local path
 ```
@@ -95,7 +95,7 @@ logger    = kwargs['logger'   ] # The built-in logger object
 Simply create new python script file under `bot_commands` and make the necessary changes in `exec.py`.
 
 For example, to create a command that responds to `marco` with `polo`:
-- Create the file `bot_commands/marco.py`
+- Create the file `bot_commands/say_polo.py`
 - Modify the contents of the file to be:
 ```
 def execute(**kwargs):
@@ -107,9 +107,9 @@ def execute(**kwargs):
 # by any of the following regular expressions (with flags),
 # execute the indicated script.
 trigger_scripts = {
-    # Example: anytime 'derp' is found in a sentence,
-    # regardless of case, bot_commands/facepalm.py will be executed
-    Trigger('marco', re.I): 'polo',
+    # Example: anytime 'marco' is found in a sentence,
+    # regardless of case, bot_commands/say_polo.py will be executed
+    Trigger('marco', re.I): 'say_polo',
     }
 ```
 
@@ -144,7 +144,7 @@ username = kwargs['username'] # The user who posted the message
 ```
 
 ### Logging
-To log messages to the log room (see the Configuration section for information on configuring the log room), use the built-in `logger` object to send Python logging events:
+To log messages to the log room (see the [Configuration](https://github.com/elespike/hubot-no-js#configuration) section for information on configuring the log room), use the built-in `logger` object to send Python logging events:
 ```
 logger = kwargs['logger']
 logger.debug  ('Debug message'        )
