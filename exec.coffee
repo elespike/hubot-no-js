@@ -23,11 +23,13 @@ module.exports = (robot) ->
                 bot_name
                 direct
             ]
+            process.env.PYTHONIOENCODING = 'utf-8'
             proc = spawn 'python3', proc_args
 
             proc.stdout.on 'data', (data) ->
                 room = msg.envelope.room
-                data = data.toString()
+                data = data.toString('utf8')
+                robot.logger.info(data)
 
                 # In case of quickly-repeated logging messages
                 messages = data.split ']+>'
