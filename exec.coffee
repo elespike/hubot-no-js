@@ -28,8 +28,7 @@ module.exports = (robot) ->
 
             proc.stdout.on 'data', (data) ->
                 room = msg.envelope.room
-                data = data.toString('utf8')
-                robot.logger.info(data)
+                data = data.toString()
 
                 # In case of quickly-repeated logging messages
                 messages = data.split ']+>'

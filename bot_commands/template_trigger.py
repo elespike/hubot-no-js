@@ -16,5 +16,4 @@ def execute(**kwargs):
 def help(**kwargs):
     bot_name = kwargs['bot_name']
     username = kwargs['username']
-    return
 
