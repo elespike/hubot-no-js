@@ -6,14 +6,16 @@ def execute(**kwargs):
         return
 
     bot_name = kwargs['bot_name']
+    room     = kwargs['room'    ]
     username = kwargs['username']
 
     def print_help(command):
         module = import_module('bot_commands.{}'.format(command))
         if hasattr(module, 'help'):
             module.help(
-                bot_name=bot_name,
-                username=username,
+                bot_name = bot_name,
+                room     = room    ,
+                username = username,
             )
 
     def print_all_help():

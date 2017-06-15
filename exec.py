@@ -92,7 +92,7 @@ try:
         logger    = logger   ,
     )
 
-except ImportError as cmd_fail:
+except Exception as cmd_fail:
     logger.debug('Failed to execute command: {}'.format(cmd_fail))
     for trigger, _command in trigger_scripts.items():
         exp = re.compile(trigger.exp, trigger.flags)
@@ -103,7 +103,7 @@ except ImportError as cmd_fail:
 
         try:
             module = import_module('bot_commands.{}'.format(_command))
-        except ImportError as trigger_fail:
+        except Exception as trigger_fail:
             logger.debug('Failed to execute trigger: {}'.format(trigger_fail))
             continue
 

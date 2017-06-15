@@ -13,7 +13,11 @@ def execute(**kwargs):
     redis     = kwargs['redis'    ]
     logger    = kwargs['logger'   ]
 
+    if not direct:
+        return
+
 def help(**kwargs):
     bot_name = kwargs['bot_name']
+    room     = kwargs['room'    ]
     username = kwargs['username']
 

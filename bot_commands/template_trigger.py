@@ -15,5 +15,6 @@ def execute(**kwargs):
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
+    room     = kwargs['room'    ]
     username = kwargs['username']
 
