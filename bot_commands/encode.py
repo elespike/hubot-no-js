@@ -39,6 +39,5 @@ def execute(**kwargs):
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
-    print(bot_name, 'encode example [base64|url]')
-    print(bot_name, 'encode 0x0b07 base64')
+    print(bot_name, 'encode <data> <base64|url> - encode <data> using specified algorithm')
 

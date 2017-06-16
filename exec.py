@@ -34,11 +34,12 @@ trigger_scripts = {
 
 # Local machine paths where to search for additional modules
 local_path = [
-    '/usr/lib/python3.5'                    ,
-    '/usr/lib/python3.5/lib-dynload'        ,
-    '/usr/lib/python3.5/plat-i386-linux-gnu',
-    '/usr/lib/python3/dist-packages'        ,
-    '/usr/lib/python35.zip'                 ,
+    '/usr/lib/python3.5'                      ,
+    '/usr/lib/python3.5/lib-dynload'          ,
+    '/usr/lib/python3.5/plat-i386-linux-gnu'  ,
+    '/usr/lib/python3.5/plat-x86_64-linux-gnu',
+    '/usr/lib/python3/dist-packages'          ,
+    '/usr/lib/python35.zip'                   ,
 ]
 
 ##########################################################################################

@@ -38,5 +38,5 @@ def execute(**kwargs):
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
-    print(bot_name, 'decode example [base64|url]')
+    print(bot_name, 'decode <data> <base64|url> - decode <data> using specified algorithm')
 
