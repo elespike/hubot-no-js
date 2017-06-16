@@ -33,5 +33,5 @@ def execute(**kwargs):
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
-    print(bot_name, ' help [command1 command2 ...] - show usage for specified command(s)')
+    print(bot_name, 'help [command1 command2 ...] - show usage for specified command(s)')
 

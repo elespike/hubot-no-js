@@ -16,6 +16,6 @@ def execute(**kwargs):
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
-    print(bot_name, ' say <message> - repeats the message in the current room')
-    print(bot_name, ' say <room> ˂+[ <message> - repeats the message in the specified room')
+    print(bot_name, 'say <message> - repeats the message in the current room')
+    print(bot_name, 'say <room> ˂+[ <message> - repeats the message in the specified room')
 
