@@ -54,13 +54,12 @@ room     = argv[1]
 username = argv[2]
 message  = argv[3]
 bot_name = argv[4]
-direct   = bool(int(argv[5]))
+direct   = message.strip().lower().replace('@', '', 1).startswith(bot_name.lower())
 
 arguments = message.strip().split(' ')
 if bot_name.lower() in arguments[0].lower():
-    direct = True
     arguments.pop(0)
-command = arguments.pop(0).strip().lower()
+command = arguments.pop(0).strip()
 
 debug_args = '''``
   room:\t{}

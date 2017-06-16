@@ -1,14 +1,13 @@
 {spawn} = require 'child_process'
 
 module.exports = (robot) ->
-    sent = 0
     proc = null
 
     # Trim leading and trailing whitespace
     trim = (str) ->
         return str.replace /^\s+|\s+$/g, ''
 
-    exec = (msg, direct) ->
+    exec = (msg) ->
         if not proc
             # Prefer the alias
             bot_name = robot.alias
@@ -21,7 +20,6 @@ module.exports = (robot) ->
                 msg.envelope.user.name
                 msg.envelope.message
                 bot_name
-                direct
             ]
             process.env.PYTHONIOENCODING = 'utf-8'
             proc = spawn 'python3', proc_args
@@ -45,15 +43,8 @@ module.exports = (robot) ->
                         msg.send message
 
             proc.on 'exit', (code, signal) ->
-                sent = 0
                 proc = null
 
-    robot.respond /.+/, (msg) ->
-        if not sent
-            exec msg, 1
-            sent = 1
     robot.hear /.+/, (msg) ->
-        if not sent
-            exec msg, 0
-            sent = 1
+        exec msg
 
