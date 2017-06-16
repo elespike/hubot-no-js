@@ -5,6 +5,9 @@ def execute(**kwargs):
     arguments = kwargs['arguments']
     logger    = kwargs['logger'   ]
 
+    if not arguments:
+        return
+
     def fail(msg=''):
         print('Does not compute!', flush=True)
         logger.error('Command "{}" failed with expression "{}"! {}'.format(command, operation, msg))

@@ -14,15 +14,15 @@ def b64e(data):
     return b64encode(data).decode()
 
 def execute(**kwargs):
-    if not kwargs['direct']:
+    command   = kwargs['command'  ]
+    arguments = kwargs['arguments']
+    direct    = kwargs['direct'   ]
+
+    if not direct or not arguments:
         return
-    try:
-        args = kwargs['arguments']
-        data = ' '.join(args[:-1])
-        algo = args[-1].lower()
-    except IndexError:
-        print('Missing options!')
-        return
+
+    data = ' '.join(arguments[:-1])
+    algo = arguments[-1].lower()
 
     BASE64 = 'base64'
     URL    = 'url'
