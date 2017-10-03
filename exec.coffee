@@ -47,30 +47,34 @@ module.exports = (robot) ->
         if not proc
             exec msg
 
-    robot.router.post '/hubot/exec/:room', (req, res) ->
+    robot.router.post '/hubot/exec', (req, res) ->
+        usage = '\nUsage: curl -X POST -H "Content-Type: application/json" -d \'{"room": "<room name or ID>", "cmd": "bot say hi", "as_user": "<desired user>"}\' http://127.0.0.1:8080/hubot/exec\nwhere "room" and "cmd" are required, "as_user" is optional (defaults to "EXECUTOR")\n'
+
         if proc
             res.send 'BUSY\n'
-            return
 
         try
-            room = req.params.room
-            data = if req.body.payload? then JSON.parse req.body.payload else req.body
-            cmd  = data.cmd
+            data    = if req.body.payload? then JSON.parse req.body.payload else req.body
+            room    = data.room
+            cmd     = data.cmd
+            as_user = data.as_user || 'EXECUTOR'
+
+            if not data or not room or not cmd
+                res.send usage
 
             msg = {
                 'envelope':{
                     'room': room
                     'user': {
-                        'name': 'EXECUTOR'
+                        'name': as_user
                     }
                     'message': cmd
                 }
             }
 
             exec msg
-
-            res.send 'OK\n'
+            res.send 'EXECUTED!\n'
 
         catch err
-            res.send err
+            res.send err + usage
 
