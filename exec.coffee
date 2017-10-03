@@ -24,7 +24,6 @@ module.exports = (robot) ->
         proc = spawn 'python3', proc_args
 
         proc.stdout.on 'data', (data) ->
-            room = msg.envelope.room
             data = data.toString()
 
             # In case of quickly-repeated logging messages
@@ -37,9 +36,9 @@ module.exports = (robot) ->
                 if outgoing.length == 2
                     room = outgoing[0]
                     message = outgoing[1]
-                    robot.messageRoom room, message
                 else if message
-                    msg.send message
+                    room = msg.envelope.room
+                robot.messageRoom room, message
 
         proc.on 'exit', (code, signal) ->
             proc = null
@@ -47,4 +46,31 @@ module.exports = (robot) ->
     robot.hear /.+/, (msg) ->
         if not proc
             exec msg
+
+    robot.router.post '/hubot/exec/:room', (req, res) ->
+        if proc
+            res.send 'BUSY\n'
+            return
+
+        try
+            room = req.params.room
+            data = if req.body.payload? then JSON.parse req.body.payload else req.body
+            cmd  = data.cmd
+
+            msg = {
+                'envelope':{
+                    'room': room
+                    'user': {
+                        'name': 'EXECUTOR'
+                    }
+                    'message': cmd
+                }
+            }
+
+            exec msg
+
+            res.send 'OK\n'
+
+        catch err
+            res.send err
 

@@ -9,27 +9,30 @@ def execute(**kwargs):
     room     = kwargs['room'    ]
     username = kwargs['username']
 
-    def print_help(command):
-        module = import_module('bot_commands.{}'.format(command))
-        if hasattr(module, 'help'):
-            module.help(
-                bot_name = bot_name,
-                room     = room    ,
-                username = username,
-            )
+    available_commands = sorted(listdir(path.dirname(path.abspath(__file__))))
 
-    def print_all_help():
-        for fname in sorted(listdir(path.dirname(path.abspath(__file__)))):
-            if fname.endswith('.py') and fname != '__init__.py':
-                print_help(fname[:-3])
+    def print_help(command=None):
+        for fname in available_commands:
+            proceed = True
+
+            if command is not None and command not in fname:
+                proceed = False
+
+            if proceed and fname.endswith('.py') and fname != '__init__.py':
+                module = import_module('bot_commands.{}'.format(fname[:-3]))
+                if hasattr(module, 'help'):
+                    module.help(
+                        bot_name = bot_name,
+                        room     = room    ,
+                        username = username,
+                    )
 
     arguments = kwargs['arguments']
     if arguments:
         for command in arguments:
-            print_help(command)
+            print_help(command=command)
     else:
-        pass
-        print_all_help()
+        print_help()
 
 def help(**kwargs):
     bot_name = kwargs['bot_name']
