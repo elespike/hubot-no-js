@@ -29,16 +29,16 @@ module.exports = (robot) ->
             # In case of quickly-repeated logging messages
             messages = data.split ']+>'
             for message in messages
-                message = trim message
+                room     = msg.envelope.room
+                message  = trim message
                 outgoing = message.split '<+['
                 for value, index in outgoing
                     outgoing[index] = trim value
                 if outgoing.length == 2
-                    room = outgoing[0]
+                    room    = outgoing[0]
                     message = outgoing[1]
-                else if message
-                    room = msg.envelope.room
-                robot.messageRoom room, message
+                if message
+                    robot.messageRoom room, message
 
         proc.on 'exit', (code, signal) ->
             proc = null
