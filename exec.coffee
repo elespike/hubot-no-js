@@ -37,7 +37,8 @@ module.exports = (robot) ->
                 if outgoing.length == 2
                     room    = outgoing[0]
                     message = outgoing[1]
-                if message
+                    robot.messageRoom room, message
+                else if message
                     robot.messageRoom room, message
 
         proc.on 'exit', (code, signal) ->
