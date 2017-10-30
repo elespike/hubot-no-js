@@ -11,6 +11,7 @@ def execute(**kwargs):
         message = message.decode('utf-8')
 
         print(message)
+
     except ValueError as ve:
         logger.error('ValueError: {}'.format(ve))
 

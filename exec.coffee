@@ -34,9 +34,9 @@ module.exports = (robot) ->
                 outgoing = message.split '<+['
                 for value, index in outgoing
                     outgoing[index] = trim value
-                if outgoing.length == 2
+                if outgoing.length > 1
                     room    = outgoing[0]
-                    message = outgoing[1]
+                    message = outgoing[1..].join(' ')
                     robot.messageRoom room, message
                 else if message
                     robot.messageRoom room, message
