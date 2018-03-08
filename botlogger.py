@@ -1,4 +1,5 @@
 from logging import (
+    Filter       ,
     Formatter    ,
     StreamHandler,
     addLevelName ,
@@ -8,11 +9,11 @@ from logging import (
 from random import randint
 from sys import stdout
 
-class Logspike:
+class BotLogger:
     STATUS = 9001
     while 'Level' not in getLevelName(STATUS):
         STATUS = randint(100, 10000)
-    def __init__(self, level=20, fmt=None):
+    def __init__(self, level=20, fmt):
         self.logger = getLogger(__name__)
 
         self.verbosity_translator = {
@@ -25,12 +26,10 @@ class Logspike:
         self.initialize_logger(level, fmt)
 
         def status(message, *args, **kwargs):
-            self.logger.log(Logspike.STATUS, message, *args, **kwargs)
+            self.logger.log(BotLogger.STATUS, message, *args, **kwargs)
         self.logger.status = status
 
     def initialize_logger(self, level, fmt):
-        if fmt is None:
-            fmt='%(asctime)s:%(msecs)03d [%(levelname)s] %(message)s\n'
         datefmt='%H:%M:%S'
         formatter = Formatter(fmt=fmt, datefmt=datefmt)
 
@@ -38,7 +37,8 @@ class Logspike:
         handler.setFormatter(formatter)
 
         self.logger.addHandler(handler)
-        addLevelName(Logspike.STATUS, 'STATUS')
+        self.logger.addFilter(HexLengthFilter())
+        addLevelName(BotLogger.STATUS, 'STATUS')
         self.logger.setLevel(level)
 
     def set_verbosity(self, level):
@@ -46,4 +46,11 @@ class Logspike:
             level = self.verbosity_translator[level]
             self.logger.setLevel(level)
         # self.logger.status('Verbosity set to {}'.format(getLevelName(level)))
+
+
+class HexLengthFilter(Filter):
+    def filter(self, record):
+        record.hex_length = '{:04x}'.format(len(record.getMessage()) + 22)
+        record.levelname = record.levelname[0]
+        return True
 

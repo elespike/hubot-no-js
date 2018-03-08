@@ -1,8 +1,6 @@
 {spawn} = require 'child_process'
 
 module.exports = (robot) ->
-    proc = null
-
     # Trim leading and trailing whitespace
     trim = (str) ->
         return str.replace /^\s+|\s+$/g, ''
@@ -23,36 +21,27 @@ module.exports = (robot) ->
         process.env.PYTHONIOENCODING = 'utf-8'
         proc = spawn 'python3', proc_args
 
-        proc.stdout.on 'data', (data) ->
-            data = data.toString()
+        proc.stdout.pause()
 
-            # In case of quickly-repeated logging messages
-            messages = data.split ']+>'
-            for message in messages
-                room     = msg.envelope.room
-                message  = trim message
-                outgoing = message.split '<+['
-                for value, index in outgoing
-                    outgoing[index] = trim value
-                if outgoing.length > 1
-                    room    = outgoing[0]
-                    message = outgoing[1..].join(' ')
-                    robot.messageRoom room, message
-                else if message
-                    robot.messageRoom room, message
+        proc.stdout.on 'readable', () ->
+            while len_bytes = proc.stdout.read(6)
+                len_bytes = len_bytes.toString()
+                robot.logger.info(len_bytes)
+                room_len = parseInt(len_bytes.slice(0, 2), 16)
+                msg_len  = parseInt(len_bytes.slice(2   ), 16)
 
-        proc.on 'exit', (code, signal) ->
-            proc = null
+                room    = proc.stdout.read(room_len)
+                message = proc.stdout.read( msg_len)
+                room    = room   .toString()
+                message = message.toString()
+                robot.logger.info(room + ' > ' + message)
+                robot.messageRoom room, message
 
     robot.hear /.+/, (msg) ->
-        if not proc
-            exec msg
+        exec msg
 
     robot.router.post '/hubot/exec', (req, res) ->
         usage = '\nUsage: curl -X POST -H "Content-Type: application/json" -d \'{"room": "<room name or ID>", "cmd": "bot say hi", "as_user": "<desired user>"}\' http://127.0.0.1:8080/hubot/exec\nwhere "room" and "cmd" are required, "as_user" is optional (defaults to "EXECUTOR")\n'
-
-        if proc
-            res.send 'BUSY\n'
 
         try
             data    = if req.body.payload? then JSON.parse req.body.payload else req.body

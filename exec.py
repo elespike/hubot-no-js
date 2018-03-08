@@ -1,9 +1,10 @@
 #! /usr/bin/python3
 
+from botlogger   import BotLogger
 from collections import namedtuple
-from importlib import import_module
-from sys import argv, path
-import re, logspike
+from importlib   import import_module
+from sys         import argv, path, stdout
+import re
 
 Trigger = namedtuple('Trigger', 'exp, flags')
 
@@ -44,8 +45,9 @@ local_path = [
 
 ##########################################################################################
 
-log_format = '`%(asctime)s:%(msecs)03d [%(levelname)s]` `%(message)s`'
-log_manager = logspike.Logspike(fmt=']+> {} <+[ {}'.format(log_room, log_format))
+log_format = '{:02x}%(hex_length)s{}`%(asctime)s:%(msecs)03d [%(levelname)s]` `%(message)s`'
+log_format = log_format.format(len(log_room), log_room)
+log_manager = BotLogger(fmt=log_format)
 log_manager.set_verbosity(verbosity)
 logger = log_manager.logger
 
