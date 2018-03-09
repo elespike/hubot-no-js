@@ -18,15 +18,7 @@ def execute(**kwargs):
         room = arguments[-1]
         message = ' '.join(arguments[:-2])
 
-    try:
-        # This allows for user messages to contain unicode characters
-        message = message.encode('utf-8', 'surrogateescape')
-        message = message.decode('utf-8')
-
-        say(message, room)
-
-    except ValueError as ve:
-        logger.error('ValueError: {}'.format(ve))
+    say(message, room)
 
 def usage(**kwargs):
     # room     = kwargs['room'     ]

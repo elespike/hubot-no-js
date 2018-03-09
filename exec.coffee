@@ -37,10 +37,11 @@ module.exports = (robot) ->
                 else
                     room = msg.envelope.room
 
-                if msg_len < 1
+                if msg_len > 0
+                    message = proc.stdout.read(msg_len)
+                    message = message.toString()
+                else
                     continue
-                message = proc.stdout.read(msg_len)
-                message = message.toString()
 
                 robot.messageRoom room, message
 

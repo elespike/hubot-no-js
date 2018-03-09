@@ -53,8 +53,9 @@ class BotLogger:
 class HexLengthFilter(Filter):
     def filter(self, record):
         # There are 21 static characters in exec.py's log_format.
-        fmt_chars = 21
-        record.hex_length = '{:04x}'.format(len(record.getMessage()) + fmt_chars + len(record.levelname))
+        len_fmt = 21
+        len_msg = len(record.getMessage().encode('utf-8', 'surrogateescape'))
+        record.hex_length = '{:04x}'.format(len_msg + len_fmt + len(record.levelname))
         delay()
         return True
 
