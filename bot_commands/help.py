@@ -24,7 +24,12 @@ def execute(**kwargs):
             if command is not None and command not in fname:
                 proceed = False
 
-            if proceed and fname.endswith('.py') and fname != '__init__.py':
+            skip = [
+                '__init__.py',
+                'template_command.py',
+                'template_trigger.py'
+            ]
+            if proceed and fname not in skip and fname.endswith('.py'):
                 module = import_module('bot_commands.{}'.format(fname[:-3]))
                 if hasattr(module, 'usage'):
                     module.usage(

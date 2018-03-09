@@ -57,5 +57,5 @@ def usage(**kwargs):
     # bot_name = kwargs['bot_name' ]
     # direct   = kwargs['direct'   ]
 
-    say('I don\'t always bake, but when I do, it\'s always a cake - `bake <person|me> a cake`')
+    say('I don\'t always bake, but when I do, it\'s always a cake - `bake <person|me> a cake`.')
 

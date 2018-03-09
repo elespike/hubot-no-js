@@ -14,7 +14,7 @@ def execute(**kwargs):
         return
 
     message = ' '.join(arguments)
-    if arguments[-2] == ']+>':
+    if len(arguments) > 2 and arguments[-2] == ']+>':
         room = arguments[-1]
         message = ' '.join(arguments[:-2])
 
@@ -36,7 +36,7 @@ def usage(**kwargs):
 
     messages = [
         '<message> - repeats the message in the current room.',
-        '<message> ]+˃ <room> - repeats the message in the specified room.',
+        '<message> ]+> <room> - repeats the message in the specified room.',
     ]
 
     command = __name__.split('.')[-1]

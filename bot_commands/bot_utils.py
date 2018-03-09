@@ -4,12 +4,11 @@ def delay():
     # To ensure correct ordering when consecutive calls are issued.
     sleep(0.02)
 
-def say(message, room='', sep=' ', end='\n'):
+def say(message, room='', end='\n'):
     output  = '{:02x}'.format(len(room))
-    # Plus one because builtins.print() ends in '\n'
-    output += '{:04x}'.format(len(message) + 1)
+    output += '{:04x}'.format(len(message) + len(end))
     output += room
     output += message
-    print(output, sep=sep, end=end, flush=True)
+    print(output, end=end, flush=True)
     delay()
 
