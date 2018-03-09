@@ -1,5 +1,7 @@
 from .bot_utils import *
 
+SPLITTER = ']+>'
+
 def execute(**kwargs):
     room      = kwargs['room'     ]
     # username  = kwargs['username' ]
@@ -14,9 +16,10 @@ def execute(**kwargs):
         return
 
     message = ' '.join(arguments)
-    if len(arguments) > 2 and arguments[-2] == ']+>':
-        room = arguments[-1]
-        message = ' '.join(arguments[:-2])
+    if SPLITTER in arguments:
+        split_index = arguments.index(SPLITTER)
+        room    = ' '.join(arguments[split_index + 1:])
+        message = ' '.join(arguments[:split_index])
 
     say(message, room)
 
@@ -28,7 +31,7 @@ def usage(**kwargs):
 
     messages = [
         '<message> - repeats the message in the current room.',
-        '<message> ]+> <room> - repeats the message in the specified room.',
+        '<message> {} <room> - repeats the message in the specified room.'.format(SPLITTER),
     ]
 
     command = __name__.split('.')[-1]

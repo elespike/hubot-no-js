@@ -49,7 +49,7 @@ def execute(**kwargs):
             new_name_line = new_name_line.replace(' |', '  |')
 
     cake = cake.replace(name_line, new_name_line)
-    print('```' + cake + '```')
+    say('```' + cake + '```')
 
 def usage(**kwargs):
     # room     = kwargs['room'     ]
