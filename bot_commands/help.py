@@ -1,17 +1,23 @@
-from importlib import import_module
-from os import path, listdir
+from .bot_utils import *
+from importlib  import import_module
+from os         import path, listdir
 
 def execute(**kwargs):
-    if not kwargs['direct']:
-        return
+    room      = kwargs['room'     ]
+    username  = kwargs['username' ]
+    command   = kwargs['command'  ]
+    arguments = kwargs['arguments']
+    bot_name  = kwargs['bot_name' ]
+    direct    = kwargs['direct'   ]
+    # redis     = kwargs['redis'    ]
+    # logger    = kwargs['logger'   ]
 
-    bot_name = kwargs['bot_name']
-    room     = kwargs['room'    ]
-    username = kwargs['username']
+    if not direct:
+        return
 
     available_commands = sorted(listdir(path.dirname(path.abspath(__file__))))
 
-    def print_help(command=None):
+    def print_usage(command=None):
         for fname in available_commands:
             proceed = True
 
@@ -20,21 +26,35 @@ def execute(**kwargs):
 
             if proceed and fname.endswith('.py') and fname != '__init__.py':
                 module = import_module('bot_commands.{}'.format(fname[:-3]))
-                if hasattr(module, 'help'):
-                    module.help(
-                        bot_name = bot_name,
+                if hasattr(module, 'usage'):
+                    module.usage(
                         room     = room    ,
                         username = username,
+                        bot_name = bot_name,
+                        direct   = direct  ,
                     )
 
-    arguments = kwargs['arguments']
     if arguments:
         for command in arguments:
-            print_help(command=command)
+            print_usage(command=command)
     else:
-        print_help()
+        print_usage()
 
-def help(**kwargs):
-    bot_name = kwargs['bot_name']
-    print(bot_name, 'help [command1 command2 ...] - show usage for specified command(s)')
+def usage(**kwargs):
+    # room     = kwargs['room'     ]
+    # username = kwargs['username' ]
+    bot_name = kwargs['bot_name' ]
+    direct   = kwargs['direct'   ]
+
+    messages = [
+        '[command1 command2 ...] - show usage for specified commands.',
+    ]
+
+    command = __name__.split('.')[-1]
+    for message in messages:
+        message = '{} {}'.format(command, message)
+        if direct:
+            message = '{} {}'.format(bot_name, message)
+
+        say(message)
 

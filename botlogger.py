@@ -6,14 +6,16 @@ from logging import (
     getLevelName ,
     getLogger    ,
 )
+from bot_commands.bot_utils import delay
 from random import randint
-from sys import stdout
+from sys    import stdout
+from time   import sleep
 
 class BotLogger:
     STATUS = 9001
     while 'Level' not in getLevelName(STATUS):
         STATUS = randint(100, 10000)
-    def __init__(self, level=20, fmt):
+    def __init__(self, fmt, level=20):
         self.logger = getLogger(__name__)
 
         self.verbosity_translator = {
@@ -50,7 +52,9 @@ class BotLogger:
 
 class HexLengthFilter(Filter):
     def filter(self, record):
-        record.hex_length = '{:04x}'.format(len(record.getMessage()) + 22)
-        record.levelname = record.levelname[0]
+        # There are 21 static characters in exec.py's log_format.
+        fmt_chars = 21
+        record.hex_length = '{:04x}'.format(len(record.getMessage()) + fmt_chars + len(record.levelname))
+        delay()
         return True
 

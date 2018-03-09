@@ -1,5 +1,6 @@
-from base64 import b64encode
-from binascii import unhexlify, Error as binascii_error
+from .bot_utils   import *
+from base64       import b64encode
+from binascii     import unhexlify, Error as binascii_error
 from urllib.parse import quote
 
 def b64e(data):
@@ -14,9 +15,14 @@ def b64e(data):
     return b64encode(data).decode()
 
 def execute(**kwargs):
+    # room      = kwargs['room'     ]
+    # username  = kwargs['username' ]
     command   = kwargs['command'  ]
     arguments = kwargs['arguments']
+    # bot_name  = kwargs['bot_name' ]
     direct    = kwargs['direct'   ]
+    # redis     = kwargs['redis'    ]
+    # logger    = kwargs['logger'   ]
 
     if not direct or not arguments:
         return
@@ -24,20 +30,34 @@ def execute(**kwargs):
     data = ' '.join(arguments[:-1])
     algo = arguments[-1].lower()
 
-    BASE64 = 'base64'
-    URL    = 'url'
     algorithms = {
-        BASE64: b64e,
-        URL   : quote,
+        'base64': b64e ,
+        'b64'   : b64e ,
+        'url'   : quote,
     }
 
     if algo not in algorithms:
-        print('Unknown algorithm: {}'.format(algo))
+        say('Unknown algorithm: {}'.format(algo))
         return
 
-    print(algorithms[algo](data))
+    say(algorithms[algo](data))
 
-def help(**kwargs):
-    bot_name = kwargs['bot_name']
-    print(bot_name, 'encode <data> <base64|url> - encode <data> using specified algorithm')
+
+def usage(**kwargs):
+    # room     = kwargs['room'     ]
+    # username = kwargs['username' ]
+    bot_name = kwargs['bot_name' ]
+    direct   = kwargs['direct'   ]
+
+    messages = [
+        '<data> <algorithm> - encode data using the specified algorithm (base64 or b64, url).',
+    ]
+
+    command = __name__.split('.')[-1]
+    for message in messages:
+        message = '{} {}'.format(command, message)
+        if direct:
+            message = '{} {}'.format(bot_name, message)
+
+        say(message)
 

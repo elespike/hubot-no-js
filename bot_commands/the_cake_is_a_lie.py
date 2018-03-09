@@ -1,9 +1,15 @@
-from re import search
+from .bot_utils import *
+from re         import search
 
 def execute(**kwargs):
+    # room     = kwargs['room'    ]
     username = kwargs['username']
-    trigger  = kwargs['trigger' ]
     message  = kwargs['message' ]
+    trigger  = kwargs['trigger' ]
+    # bot_name = kwargs['bot_name']
+    # direct   = kwargs['direct'  ]
+    # redis    = kwargs['redis'   ]
+    # logger   = kwargs['logger'  ]
 
     name_line = '|                       |'
     cake = '''
@@ -45,7 +51,11 @@ def execute(**kwargs):
     cake = cake.replace(name_line, new_name_line)
     print('```' + cake + '```')
 
-def help(**kwargs):
-    bot_name = kwargs['bot_name']
-    print('I don\'t always bake, but when I do, it\'s always a cake - `bake <person|me> a cake`')
+def usage(**kwargs):
+    # room     = kwargs['room'     ]
+    # username = kwargs['username' ]
+    # bot_name = kwargs['bot_name' ]
+    # direct   = kwargs['direct'   ]
+
+    say('I don\'t always bake, but when I do, it\'s always a cake - `bake <person|me> a cake`')
 

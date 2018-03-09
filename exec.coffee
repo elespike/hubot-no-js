@@ -1,9 +1,11 @@
 {spawn} = require 'child_process'
 
 module.exports = (robot) ->
-    # Trim leading and trailing whitespace
+
+    # Utility function to trim leading and trailing whitespace.
     trim = (str) ->
         return str.replace /^\s+|\s+$/g, ''
+
 
     exec = (msg) ->
         # Prefer the alias
@@ -25,20 +27,27 @@ module.exports = (robot) ->
 
         proc.stdout.on 'readable', () ->
             while len_bytes = proc.stdout.read(6)
-                len_bytes = len_bytes.toString()
-                robot.logger.info(len_bytes)
-                room_len = parseInt(len_bytes.slice(0, 2), 16)
-                msg_len  = parseInt(len_bytes.slice(2   ), 16)
+                hex_len  = len_bytes.toString()
+                room_len = parseInt(hex_len.slice(0, 2), 16)
+                msg_len  = parseInt(hex_len.slice(2   ), 16)
 
-                room    = proc.stdout.read(room_len)
-                message = proc.stdout.read( msg_len)
-                room    = room   .toString()
+                if room_len > 0
+                    room = proc.stdout.read(room_len)
+                    room = room.toString()
+                else
+                    room = msg.envelope.room
+
+                if msg_len < 1
+                    continue
+                message = proc.stdout.read(msg_len)
                 message = message.toString()
-                robot.logger.info(room + ' > ' + message)
+
                 robot.messageRoom room, message
+
 
     robot.hear /.+/, (msg) ->
         exec msg
+
 
     robot.router.post '/hubot/exec', (req, res) ->
         usage = '\nUsage: curl -X POST -H "Content-Type: application/json" -d \'{"room": "<room name or ID>", "cmd": "bot say hi", "as_user": "<desired user>"}\' http://127.0.0.1:8080/hubot/exec\nwhere "room" and "cmd" are required, "as_user" is optional (defaults to "EXECUTOR")\n'
