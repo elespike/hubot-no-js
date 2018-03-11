@@ -1,4 +1,4 @@
-from .bot_utils import *
+from .bot_utils import print, say
 from importlib  import import_module
 from os         import path, listdir
 

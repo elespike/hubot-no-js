@@ -1,4 +1,4 @@
-from .bot_utils   import *
+from .bot_utils   import print, say
 from base64       import b64encode
 from binascii     import unhexlify, Error as binascii_error
 from urllib.parse import quote

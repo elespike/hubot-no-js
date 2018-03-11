@@ -1,4 +1,4 @@
-from .bot_utils import *
+from .bot_utils import print, say
 
 # Commands will only execute if the message starts with the command itself,
 # whereas triggers will execute if a particular word is found anywhere in the message.
@@ -24,11 +24,6 @@ def usage(**kwargs):
     bot_name = kwargs['bot_name' ]
     direct   = kwargs['direct'   ]
 
-    # Example messages:
-    # messages = [
-    #     '<positional> - does one thing.',
-    #     '<positional> [optional] - does another thing.',
-    # ]
     messages = [
         '',
     ]
