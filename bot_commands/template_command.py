@@ -1,7 +1,7 @@
 from .bot_utils import print, say
 
 # Commands will only execute if the message starts with the command itself,
-# whereas triggers will execute if a particular word is found anywhere in the message.
+# whereas triggers will execute if a particular word/regex is found anywhere in the message.
 
 # To add commands, simply create a python script in this directory.
 

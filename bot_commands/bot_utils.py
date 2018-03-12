@@ -3,15 +3,14 @@ from sys      import stdout
 from time     import sleep
 
 
+def delay():
+    sleep(0.03)
+
+
 class _Message:
-    def __init__(self, text='', room=''):
+    def __init__(self, text, room=''):
         self.text = text
         self.room = room
-
-    @staticmethod
-    def delay():
-        # To ensure correct ordering when consecutive calls are issued.
-        sleep(0.03)
 
     def __str__(self):
         room = self.room.encode('utf-8', 'surrogateescape')
@@ -23,7 +22,11 @@ class _Message:
             room.decode('utf-8'),
             text.decode('utf-8')
         )
-        self.delay()
+
+        # To attempt to maintain correct ordering
+        # when consecutive calls are issued.
+        delay()
+
         return formatted_text
 
 

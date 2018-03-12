@@ -10,13 +10,13 @@ Trigger = namedtuple('Trigger', 'exp, flags')
 
 ##################################### Configuration ######################################
 
-# Redis connection (see https://redis-py.readthedocs.io/en/latest/)
-# To activate, comment the next line and uncomment the following 2
+# Redis connection (see https://redis-py.readthedocs.io/en/latest/).
+# To activate, comment the next line and uncomment the following 2.
 redis = {}
 # from redis import Redis
 # redis = Redis()
 
-# Room where to send logging messages
+# Room where to send logging messages.
 log_room = 'general'
 # Verbosity: 1-Error 2-Warning 3-Info 4-Debug
 verbosity = 2
@@ -25,15 +25,15 @@ verbosity = 2
 # by any of the following regular expressions (with flags),
 # execute the indicated script.
 trigger_scripts = {
-    # Example: anytime 'derp' is found in a sentence,
-    # regardless of case, bot_commands/smack_self.py will be executed
-    Trigger('derp', re.I): 'smack_self',
-    # Example: anytime 'bake [word] a cake' is found in a sentence,
-    # regardless of case, bot_commands/the_cake_is_a_lie.py will be executed
+    # Example: if a sentence contains at least once instance of 'derp',
+    # regardless of case, bot_commands/smack_self.py will be executed.
+    Trigger('.*derp.*', re.I): 'smack_self',
+    # Example: for each instance of 'bake [word] a cake' in a sentence,
+    # regardless of case, bot_commands/the_cake_is_a_lie.py will be executed.
     Trigger('bake (\w+) a cake', re.I): 'the_cake_is_a_lie',
 }
 
-# Local machine paths where to search for additional modules
+# Local machine paths where to search for additional modules.
 local_path = [
     '/usr/lib/python3.5'                      ,
     '/usr/lib/python3.5/lib-dynload'          ,

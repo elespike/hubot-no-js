@@ -3,14 +3,17 @@ from .bot_utils import print, say
 def execute(**kwargs):
     # room     = kwargs['room'    ]
     # username = kwargs['username']
-    # message  = kwargs['message' ]
+    message  = kwargs['message' ]
     # trigger  = kwargs['trigger' ]
     # bot_name = kwargs['bot_name']
     # direct   = kwargs['direct'  ]
     # redis    = kwargs['redis'   ]
     # logger   = kwargs['logger'  ]
 
-    say(':facepalm:', end='')
+    output = ''
+    for i in range(message.count('derp')):
+        output += ':facepalm:'
+    say(output)
 
 def usage(**kwargs):
     # room     = kwargs['room'     ]
