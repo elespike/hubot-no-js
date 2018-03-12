@@ -15,7 +15,7 @@ def execute(**kwargs):
         return
 
     def fail(msg=''):
-        say('Does not compute!', flush=True)
+        say('Does not compute!')
         logger.error('Command "{}" failed with expression "{}"! {}'.format(command, operation, msg))
 
     operation = ''.join(arguments)
@@ -25,17 +25,23 @@ def execute(**kwargs):
         results = []
         try:
             result = eval(operation)
+
+            if isinstance(result, float) and result.is_integer():
+                result = int(result)
+
             results.append(result)
 
-            if type(result) == int:
+            if isinstance(result, int):
                 if result < 0:
                     # Two's complement
                     result = abs(result) - (1 << (len(str(bin(result))) - 2)) # -2 to account for '0b'
                 results.append(hex(result).replace('-', ''))
                 results.append(bin(result).replace('-', ''))
 
+            output = ''
             for r in results:
-                say('`{}`'.format(r), end=' ')
+                output += '`{}` '.format(r)
+            say(output.rstrip())
         except Exception as e:
             fail(e)
     else:
