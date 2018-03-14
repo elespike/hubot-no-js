@@ -5,14 +5,14 @@ def execute(**kwargs):
     # username = kwargs['username']
     message  = kwargs['message' ]
     # trigger  = kwargs['trigger' ]
-    match    = kwargs['match'   ]
+    # match    = kwargs['match'   ]
     # bot_name = kwargs['bot_name']
     # direct   = kwargs['direct'  ]
     # redis    = kwargs['redis'   ]
     # logger   = kwargs['logger'  ]
 
     output = ''
-    for i in range(message.count(match)):
+    for i in range(message.count('derp')):
         output += ':facepalm:'
     say(output)
 

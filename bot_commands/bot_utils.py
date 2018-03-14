@@ -31,7 +31,7 @@ class _Message:
 
 
 def print(*objects, sep=' ', end='\n', file=stdout, flush=False):
-    message = _Message(sep.join(objects) + end)
+    message = _Message(sep.join([str(o) for o in objects]) + end)
     the_print(message, sep='', end='', file=file, flush=flush)
 
 def say(text, room=''):

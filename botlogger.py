@@ -27,6 +27,9 @@ class BotLogger:
 
         self.initialize_logger(level, fmt)
 
+        # TODO override logger.exception (and probably debug)
+        # in order to correctly account for exc_info
+
         def status(message, *args, **kwargs):
             self.logger.log(BotLogger.STATUS, message, *args, **kwargs)
         self.logger.status = status
