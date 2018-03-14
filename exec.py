@@ -112,12 +112,13 @@ except Exception as cmd_fail:
             logger.debug('Failed to execute trigger: {}'.format(trigger_fail))
             continue
 
-        for m in matches:
+        for match in matches:
             module.execute(
                 room     = room    ,
                 username = username,
                 message  = message ,
                 trigger  = trigger ,
+                match    = match   ,
                 bot_name = bot_name,
                 direct   = direct  ,
                 redis    = redis   ,
