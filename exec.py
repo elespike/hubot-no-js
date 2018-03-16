@@ -101,8 +101,7 @@ try:
 except Exception as cmd_fail:
     logger.debug('Failed to execute command: {}'.format(cmd_fail))
     for trigger, _command in trigger_scripts.items():
-        exp = re.compile(trigger.exp, trigger.flags)
-        matches = re.findall(exp, message)
+        matches = re.findall(trigger.exp, message, trigger.flags)
 
         if not matches:
             continue
