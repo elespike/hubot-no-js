@@ -1,12 +1,11 @@
-from .bot_utils import *
-from re         import search
+from .bot_utils import say
 
 def execute(**kwargs):
     # room     = kwargs['room'    ]
     username = kwargs['username']
-    message  = kwargs['message' ]
-    trigger  = kwargs['trigger' ]
-    # match    = kwargs['match'   ]
+    # message  = kwargs['message' ]
+    # trigger  = kwargs['trigger' ]
+    match    = kwargs['match'   ]
     # bot_name = kwargs['bot_name']
     # direct   = kwargs['direct'  ]
     # redis    = kwargs['redis'   ]
@@ -33,7 +32,7 @@ def execute(**kwargs):
         'us'  ,
         'you' ,
     ]
-    person = search(trigger.exp, message).group(1)
+    person = match
     if person.lower() in pronouns:
         person = 'YOU GO, YOU!'
     if person.lower() == 'me':
