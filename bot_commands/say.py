@@ -1,4 +1,4 @@
-from .bot_utils import print, say
+from .bot_utils import say
 
 SPLITTER = ']+>'
 
@@ -10,7 +10,7 @@ def execute(**kwargs):
     # bot_name  = kwargs['bot_name' ]
     direct    = kwargs['direct'   ]
     # redis     = kwargs['redis'    ]
-    logger    = kwargs['logger'   ]
+    # logger    = kwargs['logger'   ]
 
     if not direct:
         return

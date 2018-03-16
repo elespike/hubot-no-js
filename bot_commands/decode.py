@@ -1,4 +1,4 @@
-from .bot_utils   import print, say
+from .bot_utils   import say
 from base64       import b64decode
 from binascii     import hexlify
 from urllib.parse import unquote

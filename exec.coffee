@@ -23,28 +23,22 @@ module.exports = (robot) ->
         process.env.PYTHONIOENCODING = 'utf-8'
         proc = spawn 'python3', proc_args
 
-        proc.stdout.pause()
-
-        proc.stdout.on 'readable', () ->
-            while len_bytes = proc.stdout.read(6)
-                hex_len  = len_bytes.toString()
-                room_len = parseInt(hex_len.slice(0, 2), 16)
-                msg_len  = parseInt(hex_len.slice(2   ), 16)
-
-                if room_len > 0
-                    room = proc.stdout.read(room_len)
-                    room = room.toString()
-                else
-                    room = msg.envelope.room
-
-                if msg_len > 0
-                    message = proc.stdout.read(msg_len)
-                    message = message.toString()
-                else
-                    continue
-
+        SI = 15
+        SO = 14
+        proc.stdout.on 'data', (data) ->
+            while (sii = data.indexOf(SI)) > 0 \
+            and   (soi = data.indexOf(SO)) > 0 \
+            and data[sii - 1] is 0             \
+            and data[soi - 1] is 0
+                message = data.slice(0      , sii - 1).toString('utf-8')
+                room    = data.slice(sii + 1, soi - 1).toString('utf-8')
                 robot.messageRoom room, message
+                data = data.slice(soi + 1)
 
+            message = data.toString('utf-8')
+            if message
+                robot.messageRoom msg.envelope.room, message
+                
 
     robot.hear /.+/, (msg) ->
         exec msg

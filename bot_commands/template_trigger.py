@@ -1,4 +1,4 @@
-from .bot_utils import print, say
+from .bot_utils import say
 
 # Triggers will execute if a particular word/regex is found anywhere in the message,
 # whereas commands will only execute if the message starts with the command itself.

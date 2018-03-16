@@ -1,4 +1,4 @@
-from .bot_utils import print, say
+from .bot_utils import say
 
 def execute(**kwargs):
     # room     = kwargs['room'    ]

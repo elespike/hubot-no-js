@@ -42,7 +42,7 @@ class BotLogger:
         handler.setFormatter(formatter)
 
         self.logger.addHandler(handler)
-        self.logger.addFilter(HexLengthFilter())
+        self.logger.addFilter(DelayFilter())
         addLevelName(BotLogger.STATUS, 'STATUS')
         self.logger.setLevel(level)
 
@@ -53,12 +53,8 @@ class BotLogger:
         # self.logger.status('Verbosity set to {}'.format(getLevelName(level)))
 
 
-class HexLengthFilter(Filter):
+class DelayFilter(Filter):
     def filter(self, record):
-        # There are 21 static characters in exec.py's log_format.
-        len_fmt = 21
-        len_msg = len(record.getMessage().encode('utf-8', 'surrogateescape'))
-        record.hex_length = '{:04x}'.format(len_msg + len_fmt + len(record.levelname))
         delay()
         return True
 

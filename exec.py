@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 
+from bot_commands.bot_utils import SI, SO
 from botlogger   import BotLogger
 from collections import namedtuple
 from importlib   import import_module
@@ -45,8 +46,8 @@ local_path = [
 
 ##########################################################################################
 
-log_format = '{:02x}%(hex_length)s{}`%(asctime)s:%(msecs)03d [%(levelname)s]` `%(message)s`'
-log_format = log_format.format(len(log_room), log_room)
+log_format = '`%(asctime)s:%(msecs)03d [%(levelname)s]` `%(message)s`{}{}{}'
+log_format = log_format.format(SI, log_room, SO)
 log_manager = BotLogger(log_format)
 log_manager.set_verbosity(verbosity)
 logger = log_manager.logger

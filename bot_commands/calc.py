@@ -1,4 +1,4 @@
-from .bot_utils import print, say
+from .bot_utils import say
 from re         import search
 
 def execute(**kwargs):
