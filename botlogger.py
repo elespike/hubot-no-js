@@ -39,6 +39,7 @@ class BotLogger:
         formatter = Formatter(fmt=fmt, datefmt=datefmt)
 
         handler = StreamHandler(stream=stdout)
+        handler.terminator = ''
         handler.setFormatter(formatter)
 
         self.logger.addHandler(handler)
