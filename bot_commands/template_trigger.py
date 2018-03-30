@@ -7,14 +7,16 @@ from .bot_utils import say
 
 def execute(**kwargs):
     # room     = kwargs['room'    ]
-    username = kwargs['username']
-    message  = kwargs['message' ]
-    trigger  = kwargs['trigger' ]
-    match    = kwargs['match'   ]
+    # username = kwargs['username']
+    # message  = kwargs['message' ]
+    # trigger  = kwargs['trigger' ]
+    # match    = kwargs['match'   ]
     # bot_name = kwargs['bot_name']
     # direct   = kwargs['direct'  ]
     # redis    = kwargs['redis'   ]
     # logger   = kwargs['logger'  ]
+
+    return
 
 def usage(**kwargs):
     # room     = kwargs['room'     ]

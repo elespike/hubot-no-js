@@ -8,9 +8,9 @@ from .bot_utils import say
 def execute(**kwargs):
     # room      = kwargs['room'     ]
     # username  = kwargs['username' ]
-    command   = kwargs['command'  ]
-    arguments = kwargs['arguments']
-    bot_name  = kwargs['bot_name' ]
+    # command   = kwargs['command'  ]
+    # arguments = kwargs['arguments']
+    # bot_name  = kwargs['bot_name' ]
     direct    = kwargs['direct'   ]
     # redis     = kwargs['redis'    ]
     # logger    = kwargs['logger'   ]

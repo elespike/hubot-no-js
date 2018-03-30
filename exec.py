@@ -1,9 +1,10 @@
 #! /usr/bin/python3
 
-from bot_commands.bot_utils import SI, SO
+from bot_commands.bot_utils import SI, SO, parse_json, parse_message
 from botlogger   import BotLogger
 from collections import namedtuple
 from importlib   import import_module
+from json        import loads, JSONDecodeError
 from sys         import argv, path, stdout
 import re
 
@@ -54,16 +55,34 @@ logger = log_manager.logger
 
 path.extend(local_path)
 
-room     = argv[1]
+room     = argv[1] or log_room
 username = argv[2]
-message  = argv[3]
+message  = argv[3].strip()
 bot_name = argv[4]
-direct   = message.strip().lower().replace('@', '', 1).startswith(bot_name.lower())
 
-arguments = message.strip().split(' ')
-if bot_name.lower() in arguments[0].lower():
-    arguments.pop(0)
-command = arguments.pop(0).strip()
+try:
+    arguments = loads(message)
+    command   = 'parse_json'
+
+    values = parse_json(
+        room      = room     ,
+        username  = username ,
+        command   = command  ,
+        arguments = arguments,
+        bot_name  = bot_name ,
+        redis     = redis    ,
+        logger    = logger   ,
+    )
+
+    room      = values['room'     ]
+    username  = values['username' ]
+    command   = values['command'  ]
+    arguments = values['arguments']
+    bot_name  = values['bot_name' ]
+    direct    = values['direct'   ]
+
+except JSONDecodeError:
+    command, arguments, direct = parse_message(message, bot_name)
 
 debug_args = '''``
   room:\t{}
@@ -124,6 +143,4 @@ except Exception as cmd_fail:
                 redis    = redis   ,
                 logger   = logger  ,
             )
-
-exit()
 

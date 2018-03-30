@@ -7,7 +7,7 @@ module.exports = (robot) ->
         return str.replace /^\s+|\s+$/g, ''
 
 
-    exec = (msg) ->
+    exec = (msg, res=null) ->
         # Prefer the alias
         bot_name = robot.alias
         if not bot_name
@@ -23,21 +23,41 @@ module.exports = (robot) ->
         process.env.PYTHONIOENCODING = 'utf-8'
         proc = spawn 'python3', proc_args
 
-        SI = 15
+        STX = 2
+        ETX = 3
         SO = 14
+        SI = 15
+
         proc.stdout.on 'data', (data) ->
-            while (sii = data.indexOf(SI)) > 0 \
-            and   (soi = data.indexOf(SO)) > 0 \
-            and data[sii - 1] is 0             \
-            and data[soi - 1] is 0
-                message = data.slice(0      , sii - 1).toString('utf-8')
-                room    = data.slice(sii + 1, soi - 1).toString('utf-8')
-                robot.messageRoom room, message
-                data = data.slice(soi + 1)
+            while (zi = data.indexOf(0)) >= 0
+                if data[zi + 1] is SI
+                    si = data.indexOf(SI)
+                    so = data.indexOf(SO)
+                    if si < 0 or so < 0 or data[so - 1] isnt 0
+                        break
+                    message = data.slice(0     , zi    ).toString('utf-8')
+                    room    = data.slice(si + 1, so - 1).toString('utf-8')
+                    robot.messageRoom room, message
+                    data = data.slice(so + 1)
+
+                if res and data[zi + 1] is STX
+                    stx = data.indexOf(STX)
+                    etx = data.indexOf(ETX)
+                    if stx < 0 or etx < 0 or data[etx - 1] isnt 0
+                        break
+                    message = data.slice(stx + 1, etx - 1).toString('utf-8')
+                    if not res.finished
+                        res.setHeader('Content-Type', 'application/json');
+                        res.send message
+                    data = data.slice(etx + 1)
 
             message = data.toString('utf-8')
             if message
                 robot.messageRoom msg.envelope.room, message
+
+        proc.stdout.on 'end', () ->
+            if res and not res.finished
+                res.send 'EXECUTED!\n'
                 
 
     robot.hear /.+/, (msg) ->
@@ -48,13 +68,15 @@ module.exports = (robot) ->
         usage = '\nUsage: curl -X POST -H "Content-Type: application/json" -d \'{"room": "<room name or ID>", "cmd": "bot say hi", "as_user": "<desired user>"}\' http://127.0.0.1:8080/hubot/exec\nwhere "room" and "cmd" are required, "as_user" is optional (defaults to "EXECUTOR")\n'
 
         try
-            data    = if req.body.payload? then JSON.parse req.body.payload else req.body
-            room    = data.room
-            cmd     = data.cmd
-            as_user = data.as_user || 'EXECUTOR'
+            data = if req.body.payload? then JSON.parse req.body.payload else req.body
 
-            if not data or not room or not cmd
+            if not data
                 res.send usage
+                return
+
+            room    = data.room    || ''
+            cmd     = data.cmd     || JSON.stringify(data)
+            as_user = data.as_user || 'EXECUTOR'
 
             msg = {
                 'envelope':{
@@ -66,8 +88,7 @@ module.exports = (robot) ->
                 }
             }
 
-            exec msg
-            res.send 'EXECUTED!\n'
+            exec msg, res
 
         catch err
             res.send err + usage

@@ -17,7 +17,7 @@ def b64d(data):
 def execute(**kwargs):
     # room      = kwargs['room'     ]
     # username  = kwargs['username' ]
-    command   = kwargs['command'  ]
+    # command   = kwargs['command'  ]
     arguments = kwargs['arguments']
     # bot_name  = kwargs['bot_name' ]
     direct    = kwargs['direct'   ]
