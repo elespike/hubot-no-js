@@ -52,7 +52,7 @@ logger = log_manager.logger
 path.extend(local_path)
 
 room     = argv[1]
-username = argv[2]
+user     = argv[2]
 message  = argv[3]
 bot_name = argv[4]
 direct   = message.strip().lower().replace('@', '', 1).startswith(bot_name.lower())
@@ -73,7 +73,7 @@ direct:\t{}
 ``'''
 debug_args = debug_args.format(
         room     ,
-        username ,
+        user     ,
         message  ,
         command  ,
         arguments,
@@ -86,7 +86,7 @@ try:
     module = import_module('bot_commands.{}'.format(command))
     module.execute(
         room      = room     ,
-        username  = username ,
+        user      = user     ,
         command   = command  ,
         arguments = arguments,
         bot_name  = bot_name ,
@@ -113,7 +113,7 @@ except Exception as cmd_fail:
         for m in matches:
             module.execute(
                 room     = room    ,
-                username = username,
+                user     = user    ,
                 message  = message ,
                 trigger  = trigger ,
                 bot_name = bot_name,
