@@ -16,7 +16,7 @@ module.exports = (robot) ->
         proc_args = [
             __dirname + '/exec.py'
             msg.envelope.room
-            msg.envelope.user.name
+            msg.envelope.user
             msg.envelope.message
             bot_name
         ]
